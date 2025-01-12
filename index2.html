@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="bg-light py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Logo Section -->
+            <div>
+                <h3 style="width: 150px;">World Peas</h3>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="d-flex align-items-center">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Basket Button -->
+            <button class="btn btn-outline-success ms-3">
+                <i class="bi bi-cart-fill"></i> Basket
+            </button>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-8 border-1 rounded">
+                <div class="d-flex flex-row mb-4 rounded shadow-sm border">
+                    <img src="assets/3.png" alt="Heirloom Tomato" class="img-fluid" style="width: 80px; height: 80px; border-radius: 10px 0 0 10px;">
+                    <div class="fw-bold me-auto">
+                        <h5 class="mb-1 me-auto">Heirloom Tomato</h5>
+                        <p class="text-success mb-0">$5.99 / kg</p>
+                    </div>
+                    <p class="fw-bold me-1">$5.99</p>
+                </div>
+
+                <div class="d-flex flex-row mb-4 rounded shadow-sm border">
+                    <img src="assets/1.png" alt="Organic Ginger" class="img-fluid" style="width: 80px; height: 80px;">
+                    <div class="fw-bold me-auto">
+                        <h5 class="mb-1 me-auto">Organic Ginger</h5>
+                        <p class="text-success mb-0">$12.99 / kg</p>
+                    </div>
+                    <p class="fw-bold me-1">$12.99</p>
+                </div>
+
+                <div class="d-flex flex-row mb-4 rounded shadow-sm border">
+                    <img src="assets/2.png" alt="Sweet Onion" class="img-fluid" style="width: 80px; height: 80px;">
+                    <div class="fw-bold me-auto">
+                        <h5 class="mb-1 me-auto">Sweet Onion</h5>
+                        <p class="text-success mb-0">$2.99 / kg</p>
+                    </div>
+                    <p class="fw-bold me-1">$2.99</p>
+                </div>
+            </div>
+            
+
+            <!-- Order Summary Section -->
+            <div class="col-md-4">
+                <div class="p-4 bg-light rounded shadow-sm border">
+                    <h4>Order Summary</h4>
+                    <div class="d-flex justify-content-between">
+                        <p>Subtotal</p>
+                        <p id="subtotal">$27.44</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Shipping</p>
+                        <p>$3.99</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Tax</p>
+                        <p>$2.00</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Discount</p>
+                        <p id="discount">$0.00</p>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <p>Total</p>
+                        <p id="total">$33.43</p>
+                    </div>
+                    <div class="mb-3">
+                        <label for="promo-code" class="form-label">Promo Code</label>
+                        <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
+                    </div>
+                    <p id="promo-message" class="text-success"></p>
+                    <button class="btn btn-success w-100 mt-3" onclick="applyPromoCode()">Apply Promo Code</button>
+                    <button class="btn btn-success w-100 mt-3">Continue to payment</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let promoApplied = false;
+
+        function applyPromoCode() {
+            const promoCode = document.getElementById("promo-code").value.trim();
+            const totalElement = document.getElementById("total");
+            const subtotalElement = document.getElementById("subtotal");
+            const discountElement = document.getElementById("discount");
+            const promoMessage = document.getElementById("promo-message");
+
+            let subtotal = parseFloat(subtotalElement.textContent.replace('$', ''));
+            let shipping = 3.99;
+            let tax = 2.00;
+            let total = subtotal + shipping + tax;
+            let discount = 0;
+
+            if (promoApplied) {
+                promoMessage.textContent = "Promo code already applied.";
+                promoMessage.className = "text-warning";
+                return;
+            }
+
+            if (promoCode === "ostad10") {
+                discount = total * 0.10;
+            } else if (promoCode === "ostad5") {
+                discount = total * 0.05;
+            } else {
+                promoMessage.textContent = "Invalid promo code.";
+                promoMessage.className = "text-danger";
+                return;
+            }
+
+            total -= discount;
+            totalElement.textContent = `$${total.toFixed(2)}`;
+            discountElement.textContent = `$${discount.toFixed(2)}`;
+            promoMessage.textContent = "Promo code applied successfully!";
+            promoMessage.className = "text-success";
+            promoApplied = true;
+        }
+    </script>
+    <script src="bootstrap.bundle.min.js"></script>
+</body>
+</html>
